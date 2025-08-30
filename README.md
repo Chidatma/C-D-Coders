@@ -99,7 +99,7 @@ Feel free to fork this project, submit issues, and create pull requests to contr
 
 ## Contact
 
-For any questions or suggestions, feel free to reach out via email at **\[[your-email@example.com](mailto:your-email@example.com)]** or open an issue in the GitHub repository.
+For any questions or suggestions, feel free to reach out via email at **\[[patelchidatma@gmail.com,2mjethva@gmail.com](mailto:patelchidatma@gmail.com,2mjethva@gmail.com)]** or open an issue in the GitHub repository.
 
 ---
 
