@@ -75,7 +75,7 @@ To use the Mangrove Watch platform locally on your machine:
 
 * **HTML5 & CSS3** – For building the frontend and styling the interface.
 * **JavaScript (Vanilla)** – For the interactive functionalities and logic.
-* **LocalStorage** – To store reports, scores, and user data locally on the browser.(work in progress)
+* **LocalStorage** – To store reports, scores, and user data locally on the browser.
 * **AI Validation** – Simulated AI-based validation of reports based on certain conditions (e.g., presence of keywords, confidence scores).
 * **Geolocation API** – To fetch and display user location for incident reporting.
 * **OpenStreetMap** – Used for geolocation and map links.
