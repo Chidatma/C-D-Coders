@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mangrove Watch – Community Monitoring</title>
+  <title>Protected Website</title>
+  <style>
+    body{margin:0;font-family:Arial, sans-serif;background:#0b0f12;color:#fff;}
+    #lockScreen {
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:#0b0f12;z-index:9999;
+    }
+    #loginBox {
+      background:#12181e;padding:30px;border-radius:12px;text-align:center;
+      width:280px;box-shadow:0 6px 24px rgba(0,0,0,.4);
+    }
+    input,button {
+      width:80%;padding:12px;margin:8px 0;border-radius:8px;border:none;
+    }
+    input{background:#0b0f12;color:#fff;border:1px solid #444;}
+    button{background:linear-gradient(135deg,#10b981,#3b82f6);color:#fff;font-weight:bold;cursor:pointer}
+    #msg{color:#f87171;margin-top:6px;}
+  </style>
+  <meta name="description" content="Participatory mangrove monitoring: geotagged reports, AI validation, and gamified engagement." />
+  <style>
+    /* ========= Navbar Links Enhanced ========= */
+.links a.chip {
+  position: relative;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+.links a.chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.links a.chip:hover::before {
+  opacity: 0.15;
+}
+
+.links a.chip:hover {
+  transform: translateY(-2px);
+  color: var(--accent);
+}
+
+.links a.chip.active {
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+   /* ========= Base / Theme ========= */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+img{max-width:100%;display:block}
+:root{
+  --bg:#0b0f12; --panel:#12181e; --text:#f1f5f9; --muted:#94a3b8;
+  --brand:#10b981; --accent:#3b82f6; --ring:#10b981;
+  --radius:18px; --pad:clamp(18px,2.5vw,32px); --shadow:0 6px 24px rgba(0,0,0,.3);
+  --wrap:min(1180px,92vw);
+  --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444;
+}
+:root.light{
+  --bg:#f9fafb; --panel:#ffffff; --text:#0f172a; --muted:#64748b;
+  --brand:#059669; --accent:#2563eb; --ring:#0ea5e9; --shadow:0 8px 28px rgba(2,12,27,.08);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:
+    radial-gradient(1000px 500px at 85% -8%, rgba(16,185,129,.12), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(59,130,246,.12), transparent 60%),
+    var(--bg);
+  color:var(--text); line-height:1.7;
+}
+.wrap{width:var(--wrap); margin-inline:auto}
+.sr-only{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
+
+/* ========= Buttons ========= */
+.btn {
+  display:inline-block; padding:12px 20px; border-radius:999px; border:none;
+  font-weight:600; font-size:0.95rem; cursor:pointer;
+  background:linear-gradient(135deg,var(--brand),var(--accent));
+  color:#fff; box-shadow:0 4px 12px rgba(0,0,0,.25);
+  transition:all .25s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.35);opacity:.95}
+.btn:active{transform:scale(.96)}
+.btn.secondary{
+  background:var(--panel); border:1px solid color-mix(in oklab,var(--muted),transparent 70%);
+  color:var(--text)
+}
+.btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ========= Header ========= */
+header{
+  position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+  background:color-mix(in oklab,var(--bg),transparent 30%);
+  border-bottom:1px solid color-mix(in oklab,var(--muted),transparent 75%);
+}
+nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px var(--pad)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.3px;font-size:1.1rem}
+.logo{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:900;
+  background:linear-gradient(135deg,var(--brand),var(--accent));box-shadow:var(--shadow)
+}
+.links{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.chip{padding:8px 14px;border-radius:999px;font-weight:500;transition:.2s;
+  border:1px solid color-mix(in oklab,var(--muted),transparent 70%);
+}
+.chip:hover{background:color-mix(in oklab,var(--muted),transparent 90%)}
+.menu{display:none}
+@media (max-width:860px){.links{display:none}.menu{display:inline-flex}}
+.drawer{display:none}
+.drawer.open{display:block}
+.drawer{position:fixed;inset:64px 14px auto 14px;background:var(--panel);
+  border-radius:18px;padding:16px;box-shadow:var(--shadow);animation:fadeIn .3s ease}
+.drawer a{display:block;padding:12px;border-radius:10px;font-weight:500}
+.drawer a:hover{background:color-mix(in oklab,var(--muted),transparent 88%)}
+
+/* ========= Sections / Cards ========= */
+section{padding:clamp(32px,6vw,64px) var(--pad)}
+.h2{font-size:clamp(24px,3.6vw,36px);margin:0 0 16px;font-weight:700}
+.card{
+  background:var(--panel);border:1px solid color-mix(in oklab,var(--muted),transparent 70%);
+  border-radius:var(--radius);padding:clamp(16px,2vw,24px);box-shadow:var(--shadow);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.grid{display:grid;gap:16px}
+.two{grid-template-columns:repeat(2,1fr)}
+.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){.two,.three{grid-template-columns:1fr}}
+
+/* ========= Hero ========= */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(18px,3vw,32px);align-items:center}
+@media (max-width:950px){.hero{grid-template-columns:1fr}}
+.eyebrow{font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(32px,5.2vw,54px);line-height:1.1;margin:6px 0 12px;font-weight:800}
+.lead{color:var(--muted);font-size:1.05rem}
+
+/* ========= Forms / Table ========= */
+label{display:block;margin:10px 0 6px;font-weight:500}
+input,select,textarea{
+  width:100%;padding:12px 14px;border-radius:12px;
+  border:1px solid color-mix(in oklab,var(--muted),transparent 70%);
+  background:var(--panel);color:var(--text);transition:border .2s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
+textarea{min-height:110px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:750px){.row{grid-template-columns:1fr}}
+.notice{
+  border-left:4px solid var(--brand);padding:12px 14px;
+  background:color-mix(in oklab,var(--brand),transparent 92%);
+  border-radius:12px;margin-top:10px;font-size:.95rem
+}
+table{width:100%;border-collapse:separate;border-spacing:0 12px}
+th,td{text-align:left;padding:12px 14px;font-size:.95rem}
+tbody tr{
+  background:var(--panel);border:1px solid color-mix(in oklab,var(--muted),transparent 70%);
+  border-radius:12px;transition:.2s
+}
+tbody tr:hover{background:color-mix(in oklab,var(--muted),transparent 92%)}
+.pill{display:inline-block;padding:5px 10px;border-radius:999px;
+  border:1px solid color-mix(in oklab,var(--muted),transparent 70%);font-size:.85rem}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+
+/* ========= Footer ========= */
+footer{padding:32px var(--pad);border-top:1px solid color-mix(in oklab,var(--muted),transparent 75%);
+  text-align:center;color:var(--muted);font-size:.9rem}
+
+/* ========= Animations ========= */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+
+</head>
+<body>
+   <!-- Login Screen -->
+  <div id="lockScreen">
+    <div id="loginBox">
+      <h2>Admin Access</h2>
+      <input type="password" id="password" placeholder="Enter password">
+      <button onclick="unlock()">Enter</button>
+      <p id="msg"></p>
+    </div>
+  </div>
+
+  <script>
+    function unlock(){
+      let pass = document.getElementById("password").value;
+      if(pass === "c&dcoders09"){
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("siteContent").style.display = "block";
+      }else{
+        document.getElementById("msg").innerText = "Invalid Password";
+      }
+    }
+  </script>
+  <!-- ===== Header ===== -->
+  <header>
+    <nav class="wrap" aria-label="Primary">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">MW</span>
+        <span>Community Mangrove Watch</span>
+      </div>
+      <div class="links">
+        <a class="chip" href="#report">Report</a>
+        <a class="chip" href="#feed">Feed</a>
+        <a class="chip" href="#leaderboard">Leaderboard</a>
+        <a class="chip" href="#how">How it works</a>
+        <button id="theme" class="btn" aria-pressed="false" aria-label="Toggle theme">Toggle theme</button>
+      </div>
+      <button id="menuBtn" class="btn menu" aria-expanded="false" aria-controls="drawer">Menu</button>
+    </nav>
+    <div id="drawer" class="drawer wrap" role="dialog" aria-modal="false" aria-label="Mobile menu">
+      <a href="#report">Report</a>
+      <a href="#feed">Feed</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#how">How it works</a>
+      <button id="theme2" class="btn" aria-pressed="false">Toggle theme</button>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="wrap hero" id="top">
+    <div class="card">
+      <div class="eyebrow">Coastal conservation</div>
+      <h1>Participatory Mangrove Monitoring</h1>
+      <p class="lead">
+        Mangrove forests protect coasts, store carbon, and host rich biodiversity—but face illegal cutting, reclamation, and pollution.
+        This prototype lets communities file <strong>geotagged incident reports</strong>, uses <strong>AI-assisted validation</strong> (simulated), and
+        <strong>gamifies participation</strong> with points and a leaderboard.
+      </p>
+      <p class="notice"><strong>Demo note:</strong> No backend or external libraries. Data is stored locally in your browser.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <strong>Users</strong>
+        <p class="lead">Coastal communities, conservation NGOs, forestry departments, researchers.</p>
+      </div>
+      <div class="card">
+        <strong>Impact</strong>
+        <ul>
+          <li>Improves surveillance and protection of mangroves.</li>
+          <li>Empowers communities to act.</li>
+          <li>Real-time data for enforcement and policy action.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Report Form ===== -->
+  <section class="wrap" id="report">
+    <h2 class="h2">Report an incident</h2>
+    <form id="reportForm" class="card" novalidate>
+      <div class="row">
+        <div>
+          <label for="reporter">Your name (for points)</label>
+          <input id="reporter" name="reporter" placeholder="e.g., Asha, Rahim" required />
+        </div>
+        <div>
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="">Choose one…</option>
+            <option>Illegal cutting</option>
+            <option>Dumping / pollution</option>
+            <option>Land reclamation</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="details">Details</label>
+      <textarea id="details" name="details" placeholder="What happened? Any boats, vehicles, tools, time?"></textarea>
+
+      <div class="row">
+        <div>
+          <label for="photo">Photo (optional)</label>
+          <input id="photo" name="photo" type="file" accept="image/*" />
+        </div>
+        <div>
+          <label>Location</label>
+          <div class="row">
+            <input id="lat" name="lat" placeholder="Latitude" />
+            <input id="lng" name="lng" placeholder="Longitude" />
+          </div>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn" id="geoBtn">Use my location</button>
+            <a id="osmLink" class="btn" href="#" target="_blank" rel="noopener">Open in map</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="channel">Channel</label>
+          <select id="channel" name="channel">
+            <option>Mobile app</option>
+            <option>SMS</option>
+          </select>
+        </div>
+        <div>
+          <label for="phone">Phone (for SMS)</label>
+          <input id="phone" name="phone" placeholder="+91-XXXXXXXXXX" />
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>SMS fallback format:</strong> <code>MW REPORT &lt;NAME&gt; | &lt;CATEGORY&gt; | &lt;LAT&gt;,&lt;LNG&gt; | &lt;NOTES&gt;</code>
+        <br/>Example: <code>MW REPORT ASHA | ILLEGAL CUTTING | 19.04,72.83 | 2 boats, 5 people</code>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn" type="submit">Submit report</button>
+        <button class="btn" type="button" id="clearForm">Clear</button>
+      </div>
+      <div id="formMsg" aria-live="polite" style="margin-top:8px;color:var(--muted)"></div>
+    </form>
+  </section>
+
+  <!-- ===== Feed / Dashboard ===== -->
+  <section class="wrap" id="feed">
+    <h2 class="h2">Live incident feed</h2>
+    <div class="card" style="margin-bottom:10px">
+      <div class="row">
+        <div>
+          <label for="filterText">Filter</label>
+          <input id="filterText" placeholder="Search by category, reporter, status…" />
+        </div>
+        <div>
+          <label for="statusFilter">Status</label>
+          <select id="statusFilter">
+            <option value="">All</option>
+            <option value="Submitted">Submitted</option>
+            <option value="Validated">Validated</option>
+            <option value="Flagged">Flagged</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="overflow:auto">
+      <table aria-describedby="feedHelp">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>When</th>
+            <th>Reporter</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>AI confidence</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="feedBody"></tbody>
+      </table>
+      <div id="feedHelp" class="sr-only">Incident feed with AI confidence and moderation controls.</div>
+    </div>
+  </section>
+
+  <!-- ===== Leaderboard ===== -->
+  <section class="wrap" id="leaderboard">
+    <h2 class="h2">Leaderboard & rewards</h2>
+    <div class="grid two">
+      <div class="card">
+        <ol id="lbList" style="margin:0;padding-left:20px"></ol>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>
+          Reporters earn points for high-confidence, well-detailed reports.
+          <span class="pill">Beginner &lt; 20</span>
+          <span class="pill">Guardian 20–49</span>
+          <span class="pill">Ranger 50–99</span>
+          <span class="pill">Champion 100+</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How it works ===== -->
+  <section class="wrap" id="how">
+    <h2 class="h2">How it works</h2>
+    <div class="grid three">
+      <div class="card"><strong>1) Report</strong><br/>Citizen submits geotagged photos & notes via app/SMS.</div>
+      <div class="card"><strong>2) Validate (AI)</strong><br/>Automated checks estimate confidence; moderators review flags.</div>
+      <div class="card"><strong>3) Act</strong><br/>Authorities get real-time, structured data for enforcement.</div>
+    </div>
+    <div class="grid three" style="margin-top:12px">
+      <div class="card"><strong>Tech</strong><br/>Mobile/SMS · Geotagging · Satellite APIs · AI/ML · Gamification · Cloud dashboards.</div>
+      <div class="card"><strong>Privacy</strong><br/>Only share precise locations with authorized roles.</div>
+      <div class="card"><strong>Open Map</strong><br/>Each report includes a quick link to view coordinates.</div>
+    </div>
+  </section>
+  
+
+
+
+  <!-- ===== Admin Panel ===== -->
+  <section class="wrap" id="adminPanel" style="display:none">
+    <h2 class="h2">Admin Dashboard</h2>
+    <div class="card">
+      <p>You are logged in as <strong>Admin</strong>. You can manage reports below.</p>
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
+    <div class="card" style="margin-top:12px;overflow:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>When</th>
+            <th>Reporter</th>
+            <th>Category</th>
+            <th>AI confidence</th>
+            <th>Status</th>
+            <th>Admin Actions</th>
+          </tr>
+        </thead>
+        <tbody id="adminFeed"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Mangrove Watch · Single-page demo (HTML UI + external JS)
+  </footer>
+
+  <!-- Link external JS -->
+  <script src="script.js"></script>
+</body>
+</html>
