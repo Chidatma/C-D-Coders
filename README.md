@@ -38,7 +38,7 @@ To use the Mangrove Watch platform locally on your machine:
    Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/mangrove-watch.git
+   https://github.com/Chidatma/C-D-Coders
    ```
 
 2. **Open the HTML File**
